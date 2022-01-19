@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+<section name="general">
+  <!-- SRU access (base URL) -->
+<!--   <srubase>http(s)://{Rosetta domain name}:{load balancer port}/delivery/sru?</srubase> -->
+  <srubase></srubase>
+
+  <!-- web services access -->
+<!--   <wsurl>http(s)://{Rosetta domain name}:{load balancer port}/dpsws/repository/IEWebServices</wsurl> -->
+  <wsurl></wsurl>
+  <userid></userid><!-- can be entered after starting the tool, when left empty -->
+  <password></password><!-- can be entered after starting the tool, when left empty -->
+  <institutioncode></institutioncode><!-- can be entered after starting the tool, when left empty -->
+
+  <!-- <askforconfirmation>: confirm before bulk processing (true / false)
+          exception: options 7 and 9 must always be confirmed -->
+  <askforconfirmation>false</askforconfirmation>
+
+  <!-- <debug>: add debug information to the log (true / false) -->
+  <debug>false</debug>
+</section>
+
+<section name="csvGeneration">
+  <!-- <addlevels>:
+  ONLY relevant for CSV created out of PHYSICAL structure map
+  - contains the number of structure map levels to be added
+  - these levels will be added as empty columns to the CSV
+  -->
+  <addlevels>4</addlevels>
+  
+  <!-- <labelregex>:
+  ONLY relevant for CSV created out of PHYSICAL structure map
+  - regular expression that will be used to extract new file label from original one
+  - if missing or empty, the file label will be copied as is
+  Example:
+    file label: xxxx_yyyy_label
+    labelregex: ^.*?_.*?_(.*?)$
+    results in: label
+  - the value in brackets will be used as label
+  - only one group, i.e. pair of brackets, is supported
+  -->
+  <labelregex>^.*?_.*?_(.*?)$</labelregex><!-- can be left empty -->
+
+  <!-- <repidsfordownloadphysical>:
+  - TXT file that contains REP IDs (e.g. REP1002) for CSV creation (one ID per line) from PHYSICAL structure maps
+  - the path can be relative to the tool's JAR file or absolute
+  -->
+  <repidsfordownloadphysical>repidsfordownloadphysical.txt</repidsfordownloadphysical>
+  
+  <!-- <repmidsfordownloadlogical>:
+  - TXT file that contains REP IDs (e.g. REP1002) or logical structure map MIDs (e.g. REP1002-2) for CSV creation (one ID per line)
+  - the file can contain both types at the same time
+  - if the REP ID is provided, the tool looks for a logical structure map for this representation
+    - if there are more than one logical structure maps, the one with the highest version number will be taken, e.g. REP1002-5
+  - if the REP MID is provided, the logical with this exact MID will be taken, e.g. REP1002-2
+  - the path can be relative to the tool's JAR file or absolute
+  -->
+  <repidsfordownloadlogical>repidsfordownloadlogical.txt</repidsfordownloadlogical>
+  
+  <!-- <downloadedxml>:
+  - folder contains the original structure map XML files that will be transformed to CSV for customization
+  - the XMLs are downloaded via SOAP by the tool as part of the CSV generation (option #1,2,5,6)
+  - alternatively, XMLs can be placed here without using the tool, but can then be processed via option #7
+    - this is useful, e.g. in case the structure maps were exported via SQL
+  -->
+  <downloadedxml>1_tmp_download</downloadedxml>
+  
+  <!-- <csvfromxml>:
+  - folder for CSVs created based on downloaded structure map XMLs
+  - starting point for customization
+  -->
+  <csvfromxml>2_csv_to_work_on</csvfromxml>
+  
+  <!-- <copyxmltoclipboard>: only active when tool option 3 has been selected (true / false) -->
+  <copyxmltoclipboard>false</copyxmltoclipboard>
+  
+  <!-- <beiccorrection>: correction of wrong XML entities, e.g. from &amp;#x2026; to &#x2026; (true / false) -->
+  <!-- <beiccorrection>false</beiccorrection> -->
+</section>
+
+<section name="xmlGeneration">
+  <!-- <csvreadyforxml>:
+  - folder for customized CSVs ready for creating structure map XMLs
+  - contains both: CSV from physical structure maps (for adding) and from logical (for updating)
+  -->
+  <csvreadyforxml>3_csv_ready_for_conversion_to_xml</csvreadyforxml>
+  
+  <!-- <xmlreadyforupload>:
+  - folder for XMLs created based on customized CSVs
+  -->
+  <xmlreadyforupload>4_xml_ready_for_upload</xmlreadyforupload>
+</section>
+
+<section name="dialogtext">
+  <!-- tool options -->
+  <!-- The text (content of elements) can be changed but not the element code -->
+  <tooloption1>Create CSV file from physical structure map (via API)</tooloption1>
+  <tooloption2>Create CSV file from logical structure map (via API)</tooloption2>
+  <tooloption3>Create structure map XML from single prepared CSV (offline)</tooloption3>
+  <tooloption4>Add/update logical structure map for representation (via API)</tooloption4>
+  <tooloption5>Create CSVs from physical structure map for list of REP IDs (via API)</tooloption5>
+  <tooloption6>Create CSVs from logical structure map for list of REP IDs or Structure Map MIDs (via API)</tooloption6>
+  <tooloption7>Create CSVs for all XMLs in folder 'downloadedxml' (offline)</tooloption7>
+  <tooloption8>Create structure map XMLs from all prepared CSVs (offline)</tooloption8>
+  <tooloption9>Add/update structure maps for files in folder 'xmlreadyforupload' (via API)</tooloption9>
+</section>
+
+</properties>
