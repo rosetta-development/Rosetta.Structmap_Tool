@@ -29,7 +29,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -63,7 +64,7 @@ public class CreateRosettaLogStructMap
 	static String currentDir;
 	static ArrayList<String> tooloptions = new ArrayList<String>();
 
-	static final Logger logger = Logger.getLogger(CreateRosettaLogStructMap.class);
+	static final Logger logger = LogManager.getLogger(CreateRosettaLogStructMap.class.getName());
 	static final String separator = "\\";
 	
 	static private enum SECTIONS { general, csvGeneration, xmlGeneration, dialogtext };
@@ -88,11 +89,11 @@ public class CreateRosettaLogStructMap
 
 	}
 
-	//	@SuppressWarnings({ "deprecation", "static-access" })
-	protected void finalize() throws Exception
-	{
-		logger.removeAllAppenders();
-	}
+//	//	@SuppressWarnings({ "deprecation", "static-access" })
+//	protected void finalize() throws Exception
+//	{
+//		logger.removeAllAppenders();
+//	}
 
 	/*
 	 * Unique exception formatting
@@ -117,9 +118,9 @@ public class CreateRosettaLogStructMap
 	{
 		properties = new XMLProperty();
 		String pn = "conf/" + this.getClass().getSimpleName() + ".xml";
-		properties.load(pn);
-		List<String> lines = Files.readAllLines(Paths.get(pn));
 		currentDir = System.getProperty("user.dir");
+		properties.load(currentDir + "/" + pn);
+		List<String> lines = Files.readAllLines(Paths.get(pn));
 		debug = Boolean.parseBoolean(properties.getProperty(SECTIONS.general.toString(), "debug"));
 		logger.info("Following parameters have been set in ");
 		logger.info("==> " + currentDir + "/" + pn + ":");
@@ -1176,7 +1177,7 @@ public class CreateRosettaLogStructMap
 	
 	public static void main(String[] args) {
 
-		org.apache.log4j.helpers.LogLog.setQuietMode(true);
+//		org.apache.logging.log4j.helpers.LogLog.setQuietMode(true);
 		CreateRosettaLogStructMap myself = null;
 		try {
 			myself = new CreateRosettaLogStructMap();
